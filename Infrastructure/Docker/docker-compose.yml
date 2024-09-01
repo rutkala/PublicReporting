@@ -1,0 +1,116 @@
+name: publicreporting
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - publicreporting_network
+      
+  nessie:
+    image: projectnessie/nessie:latest
+    container_name: nessie
+    ports:
+      - "19120:19120"  # Port for Nessie API
+    environment:
+      - QUARKUS_HTTP_PORT=19120
+      - NESSIE_VERSION_STORE_TYPE=ROCKSDB  # Set the version store to ROCKSDB
+    volumes:
+      - nessie_data:/data  # Reference to the shared volume (if Nessie needs to use the same storage path)
+    networks:
+      - publicreporting_network  # Custom network for the container
+     
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8081:8080"  # Map Trino's default port to 8081 to avoid conflicts
+    environment:
+      - TRINO_NODE_ID=trino-node
+      - TRINO_HTTP_PORT=8080  # Internal port for Trino
+      - TRINO_DISCOVERY_SERVER_ENABLED=true
+    volumes:
+      - trino_data:/data
+      - E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/Trino/etc/catalog:/etc/trino/catalog  # Mount the catalog configuration directory
+    networks:
+      - publicreporting_network  # Custom network for the container
+
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: jupyter
+    environment:
+      JUPYTER_TOKEN: "password"  # Optional: Replace with your desired token
+    ports:
+      - "8888:8888"
+    volumes:
+      - jupyter_data:/home/jovyan/work
+    networks:
+      - publicreporting_network
+
+  superset:
+    image: apache/superset:latest
+    container_name: superset
+    environment:
+      SUPERSET_LOAD_EXAMPLES: 'yes'
+      SUPERSET_SECRET_KEY: 'thisISaSECRET_1234'
+      ADMIN_USERNAME: 'admin'
+      ADMIN_PASSWORD: 'admin'
+      ADMIN_FIRST_NAME: 'Superset'
+      ADMIN_LAST_NAME: 'Admin'
+      ADMIN_EMAIL: 'admin@example.com'
+    ports:
+      - "8088:8088"
+    volumes:
+      - superset_data:/var/lib/superset
+    networks:
+      - publicreporting_network
+
+networks:
+  publicreporting_network:
+    driver: bridge
+    
+volumes:
+  minio_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/MinIO"
+      
+  jupyter_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/Jupyter"
+      
+  nessie_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/Nessie"
+      
+  trino_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/Trino"
+
+  superset_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "E:/Dokumenty/Praca Radek/MyCompany/PublicReporting/DataLakehouse/Superset"
+
