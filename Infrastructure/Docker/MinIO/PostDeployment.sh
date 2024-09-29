@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set variables for MinIO
-MINIO_ALIAS="myminio"
+MINIO_ALIAS="minio"
 MINIO_SERVER_URL="http://localhost:9000"
 MINIO_ACCESS_KEY="admin"  # Replace with your MinIO access key
 MINIO_SECRET_KEY="password"  # Replace with your MinIO secret key
