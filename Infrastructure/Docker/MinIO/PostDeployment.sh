@@ -3,8 +3,8 @@
 # Set variables for MinIO
 MINIO_ALIAS="myminio"
 MINIO_SERVER_URL="http://localhost:9000"
-MINIO_ACCESS_KEY="minioadmin"  # Replace with your MinIO access key
-MINIO_SECRET_KEY="minioadmin"  # Replace with your MinIO secret key
+MINIO_ACCESS_KEY="admin"  # Replace with your MinIO access key
+MINIO_SECRET_KEY="password"  # Replace with your MinIO secret key
 BUCKET_NAME="warehouse"
 MC_PATH="/usr/local/bin/mc"
 
