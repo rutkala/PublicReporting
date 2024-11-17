@@ -20,14 +20,12 @@ services:
       retries: 3
     networks:
       - publicreporting_network
-      
-  minio_mc:
+  mc:
     image: minio/mc:latest
     container_name: minio_mc
-    depends_on:
-      - minio
     networks:
       - publicreporting_network
+    entrypoint: ["sleep", "infinity"]  # Keeps the container running
 
 networks:
   publicreporting_network:
