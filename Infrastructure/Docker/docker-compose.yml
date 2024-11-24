@@ -27,10 +27,39 @@ services:
       - publicreporting_network
     entrypoint: ["sleep", "infinity"]  # Keeps the container running
 
+  nessie: 
+    image: projectnessie/nessie:latest
+    container_name: nessie
+    environment:
+      QUARKUS_HTTP_PORT: 19120
+      NESSIE_VERSION_STORE_TYPE: ROCKSDB
+    ports:
+      - "19120:19120"
+    volumes:
+      - nessie_data:/data
+    networks:
+      - publicreporting_network
+  
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: jupyter
+    environment:
+      JUPYTER_TOKEN: "password"
+    ports:
+      - "8888:8888"
+    volumes:
+      - jupyter_data:/home/jovyan/work
+    networks:
+      - publicreporting_network
+
 networks:
   publicreporting_network:
     driver: bridge
     
 volumes:
   minio_data:
+    driver: local
+  nessie_data:
+    driver: local
+  jupyter_data:
     driver: local
