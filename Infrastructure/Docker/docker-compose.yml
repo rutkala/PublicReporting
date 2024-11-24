@@ -52,6 +52,20 @@ services:
     networks:
       - publicreporting_network
 
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8081:8080"  # Map Trino's default port to 8081 to avoid conflicts
+    environment:
+      - TRINO_NODE_ID=trino-node
+      - TRINO_HTTP_PORT=8080  # Internal port for Trino
+      - TRINO_DISCOVERY_SERVER_ENABLED=true
+    volumes:
+      - trino_data:/data
+    networks:
+      - publicreporting_network  # Custom network for the container
+
 networks:
   publicreporting_network:
     driver: bridge
@@ -62,4 +76,6 @@ volumes:
   nessie_data:
     driver: local
   jupyter_data:
+    driver: local
+  trino_data:
     driver: local
