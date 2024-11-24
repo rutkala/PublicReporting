@@ -15,3 +15,12 @@ spark = SparkSession.builder \
     .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
     .config("spark.hadoop.fs.s3a.path.style.access", "true") \
     .getOrCreate()
+
+# Load the 'sparksql-magic' extension programmatically
+try:
+    from IPython import get_ipython
+    ipython = get_ipython()
+    if ipython is not None:
+        ipython.magic("load_ext sparksql_magic")
+except Exception as e:
+    print(f"Error loading sparksql_magic extension: {e}")
