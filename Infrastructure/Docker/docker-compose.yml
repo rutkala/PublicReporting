@@ -79,3 +79,5 @@ volumes:
     driver: local
   trino_data:
     driver: local
+  superset_data:
+    driver: local
