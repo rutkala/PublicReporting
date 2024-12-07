@@ -1,4 +1,4 @@
-name: publicreporting
+name: lakehouse
 
 services:
   minio:
@@ -19,12 +19,12 @@ services:
       timeout: 20s
       retries: 3
     networks:
-      - publicreporting_network
+      - network
   mc:
     image: minio/mc:latest
     container_name: minio_mc
     networks:
-      - publicreporting_network
+      - network
     entrypoint: ["sleep", "infinity"]  # Keeps the container running
 
   nessie: 
@@ -38,7 +38,7 @@ services:
     volumes:
       - nessie_data:/data
     networks:
-      - publicreporting_network
+      - network
   
   jupyter:
     image: jupyter/pyspark-notebook:latest
@@ -50,7 +50,7 @@ services:
     volumes:
       - jupyter_data:/home/jovyan/work
     networks:
-      - publicreporting_network
+      - network
 
   trino:
     image: trinodb/trino:latest
@@ -64,10 +64,10 @@ services:
     volumes:
       - trino_data:/data
     networks:
-      - publicreporting_network  # Custom network for the container
+      - network  # Custom network for the container
 
 networks:
-  publicreporting_network:
+  network:
     driver: bridge
     
 volumes:
