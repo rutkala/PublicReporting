@@ -1,14 +1,17 @@
 #!/bin/bash
-CERT_DIR="/opt/publicreporting/Infrastructure/Lakehouse/minio-certs"
+set -e
 
-mkdir -p "$CERT_DIR"
+# Run from your project directory (where docker-compose.yml lives)
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)/.."
+NGINX_CONF_DIR="$BASE_DIR/nginx/conf.d"
+NGINX_CERT_DIR="$BASE_DIR/nginx/certs"
 
-if [ ! -f "$CERT_DIR/private.key" ] || [ ! -f "$CERT_DIR/public.crt" ]; then
-  echo "[PreDeployment] Generating self-signed TLS certificates..."
-  openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout "$CERT_DIR/private.key" \
-    -out "$CERT_DIR/public.crt" \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=IT/CN=yourdomain.com"
-else
-  echo "[PreDeployment] Certificates already exist, skipping generation."
-fi
+echo "[PreDeployment] Creating nginx folders..."
+mkdir -p "$NGINX_CONF_DIR"
+mkdir -p "$NGINX_CERT_DIR"
+
+echo "[PreDeployment] Directories prepared:"
+echo "  - $NGINX_CONF_DIR"
+echo "  - $NGINX_CERT_DIR"
+
+echo "[PreDeployment] Skipping self-signed certificate generation. We'll use Let's Encrypt (via certbot or companion container)."
