@@ -1,2 +1,7 @@
 **/Infrastructure/Superset/superset
-**/Infrastructure/Lakehouse/minio-certs/
+# Ignore nginx runtime configs
+Infrastructure/Lakehouse/nginx/conf.d/*.conf
+
+# Ignore certs (Let’s Encrypt)
+Infrastructure/Lakehouse/nginx/certs/
+**/letsencrypt/
