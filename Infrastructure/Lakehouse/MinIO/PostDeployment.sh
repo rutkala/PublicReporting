@@ -2,7 +2,7 @@
 
 # Variables
 MINIO_ALIAS="minio"
-MINIO_SERVER_URL="http://minio:9001"
+MINIO_SERVER_URL="http://minio:9000"
 MINIO_ACCESS_KEY="admin"
 MINIO_SECRET_KEY="password"
 BUCKET_NAME="warehouse"
