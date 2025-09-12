@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 NGINX_CONF_DIR="./nginx/conf.d"
-DOMAIN="minio.open-reporting.dev"
+DOMAIN="storage.open-reporting.dev"
 
 # Replace with your real email for certbot notifications
-EMAIL="your.email@domain.com"
+EMAIL="r.utkala@gmail.com"
 
 echo "[PostDeployment] Requesting or renewing Let's Encrypt certificate for $DOMAIN..."
 docker exec nginx certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos -m "$EMAIL"
