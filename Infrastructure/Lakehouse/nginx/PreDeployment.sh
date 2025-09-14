@@ -7,5 +7,12 @@ CONF_DIR="./conf.d"
 echo "[PreDeployment] Creating nginx config, certs, and www folders if not exist..."
 mkdir -p "$CERTS_DIR" "$WWW_DIR" "$CONF_DIR"
 
-echo "[PreDeployment] Applying HTTP-only config to enable certbot validation..."
-cp "$CONF_DIR/minio-http.conf" "$CONF_DIR/minio.conf"
+echo "[PreDeployment] Generating self-signed certificate..."
+mkdir -p "$CERTS_DIR/live/storage.open-reporting.dev"
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout "$CERTS_DIR/live/storage.open-reporting.dev/privkey.pem" \
+  -out "$CERTS_DIR/live/storage.open-reporting.dev/fullchain.pem" \
+  -subj "/CN=storage.open-reporting.dev"
+
+echo "[PreDeployment] Applying HTTPS config with self-signed certificate..."
+cp "$CONF_DIR/minio-https.conf" "$CONF_DIR/minio.conf"
