@@ -16,8 +16,8 @@ done
 echo "[PostDeployment] Requesting Let's Encrypt certificates..."
 for DOMAIN in "${DOMAINS[@]}"; do
     echo "[PostDeployment] Processing $DOMAIN ..."
-    docker exec certbot certbot certonly --webroot -w /var/www/certbot -d "$DOMAIN" \
-      --cert-name "$DOMAIN" --force-renewal --non-interactive --agree-tos -m "$EMAIL"
+    docker exec certbot certbot certonly --staging --webroot -w /var/www/certbot -d "$DOMAIN" \
+        --cert-name "$DOMAIN" --non-interactive --agree-tos -m "$EMAIL"
 
     # Check if certificate was created successfully
     if [ -f "./certs/live/$DOMAIN/fullchain.pem" ] && [ -f "./certs/live/$DOMAIN/privkey.pem" ]; then
