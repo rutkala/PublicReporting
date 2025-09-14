@@ -6,7 +6,10 @@ DOMAIN="storage.open-reporting.dev"
 EMAIL="r.utkala@gmail.com"
 
 echo "[PostDeployment] Requesting Let's Encrypt certificate for $DOMAIN..."
-docker exec certbot certbot certonly --webroot -w /var/www/certbot -d "$DOMAIN" --non-interactive --agree-tos -m "$EMAIL"
+
+# Force renewal and specify cert-name to overwrite existing certificates without creating -0001 folder
+docker exec certbot certbot certonly --webroot -w /var/www/certbot -d "$DOMAIN" \
+  --cert-name "$DOMAIN" --force-renewal --non-interactive --agree-tos -m "$EMAIL"
 
 # Check if certificate was created successfully
 if [ -f "./certs/live/$DOMAIN/fullchain.pem" ] && [ -f "./certs/live/$DOMAIN/privkey.pem" ]; then
