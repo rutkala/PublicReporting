@@ -9,6 +9,6 @@ echo "[PreDeployment] Applying HTTP-only config to enable certbot validation..."
 cp "./conf.d/minio-http.conf" "./conf.d/minio.conf"
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout ./nginx/certs/live/storage.open-reporting.dev/privkey.pem \
-  -out ./nginx/certs/live/storage.open-reporting.dev/fullchain.pem \
+  -keyout ./certs/live/storage.open-reporting.dev/privkey.pem \
+  -out ./certs/live/storage.open-reporting.dev/fullchain.pem \
   -subj "/CN=storage.open-reporting.dev"
