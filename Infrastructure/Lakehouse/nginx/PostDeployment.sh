@@ -16,3 +16,9 @@ echo "[PostDeployment] Reloading nginx to apply new config..."
 docker exec nginx nginx -s reload
 
 echo "[PostDeployment] HTTPS nginx config applied for $DOMAIN"
+
+docker run --rm -it \
+  -v $(pwd)/nginx/certs:/etc/letsencrypt \
+  -v $(pwd)/nginx/www:/var/www/certbot \
+  certbot/certbot certonly --webroot -w /var/www/certbot -d storage.open-reporting.dev
+
