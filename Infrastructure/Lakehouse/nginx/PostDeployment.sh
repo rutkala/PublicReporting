@@ -1,4 +1,9 @@
 #!/bin/bash
+
+rm -rf ./certs/live/storage.open-reporting.dev
+rm -rf ./certs/archive/storage.open-reporting.dev
+rm -f ./certs/renewal/storage.open-reporting.dev.conf
+
 set -e
 
 NGINX_CONF_DIR="./conf.d"
