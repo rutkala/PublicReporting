@@ -13,6 +13,3 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout "$CERTS_DIR/live/storage.open-reporting.dev/privkey.pem" \
   -out "$CERTS_DIR/live/storage.open-reporting.dev/fullchain.pem" \
   -subj "/CN=storage.open-reporting.dev"
-
-echo "[PreDeployment] Applying HTTPS config with self-signed certificate..."
-cp "$CONF_DIR/minio-https.conf" "$CONF_DIR/minio.conf"
