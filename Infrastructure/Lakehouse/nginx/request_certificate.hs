@@ -1,7 +1,7 @@
 docker exec certbot certbot certonly \
   --webroot -w /var/www/certbot \
   -d open-reporting.dev \
-  -d ingest.open-reporting.de
+  -d ingest.open-reporting.dev \
   -d flow.open-reporting.dev \
   -d storage.open-reporting.dev \
   -d storageapi.open-reporting.dev \
@@ -16,6 +16,7 @@ docker exec certbot certbot certonly \
   -d manage.open-reporting.dev \
   --cert-name open-reporting.dev \
   --expand \
+  --force-renewal \
   --non-interactive \
   --agree-tos \
-  -m r.utkala@gmail.com
+  -m your-email@example.com
