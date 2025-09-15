@@ -12,6 +12,8 @@ docker exec certbot certbot certonly \
   -d bi.open-reporting.dev \
   -d portal.open-reporting.dev \
   -d ai.open-reporting.dev \
+  -d security.open-reporting.dev \
+  -d manage.open-reporting.dev \
   --cert-name open-reporting.dev \
   --expand \
   --non-interactive \
