@@ -90,6 +90,8 @@ services:
       - TRINO_DISCOVERY_SERVER_ENABLED=true
     volumes:
       - trino_data:/data
+      - ./Trino/config.properties:/etc/trino/config.properties:ro
+      - ./Trino/iceberg.properties:/etc/trino/catalog/iceberg.properties:ro
     networks:
       - network  # Custom network for the container
 
