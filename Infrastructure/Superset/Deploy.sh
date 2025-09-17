@@ -1,4 +1,5 @@
-#git clone https://github.com/apache/superset
+git clone https://github.com/apache/superset.git
 cd superset
-docker-compose -f docker-compose-non-dev.yml up
+git checkout tags/5.0.0
+docker compose -f docker-compose-non-dev.yml up -d
 cd ..
