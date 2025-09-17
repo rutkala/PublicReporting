@@ -102,7 +102,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      SUPERSET_SECRET_KEY: 'your_secret_key_here'
+      SUPERSET_SECRET_KEY: password
       # Add other env vars if needed, e.g. database URLs
     volumes:
       - superset_data:/app/superset_home
