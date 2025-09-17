@@ -95,6 +95,22 @@ services:
     networks:
       - network  # Custom network for the container
 
+  superset:
+    image: apache/superset:latest
+    container_name: superset
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: 'your_secret_key_here'
+      # Add other env vars if needed, e.g. database URLs
+    volumes:
+      - superset_data:/app/superset_home
+    networks:
+      - network
+    depends_on:
+      - trino  # Assuming you want superset after trino is up
+
 networks:
   network:
     driver: bridge
