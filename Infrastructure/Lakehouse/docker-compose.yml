@@ -106,6 +106,7 @@ services:
       # Add other env vars if needed, e.g. database URLs
     volumes:
       - superset_data:/app/superset_home
+      - ./Superset/superset_config.py:/app/pythonpath/superset_config.py
     networks:
       - network
     depends_on:
