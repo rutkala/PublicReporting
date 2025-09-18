@@ -3,7 +3,7 @@ docker exec -it superset superset fab create-admin \
    --firstname Superset \
    --lastname Admin \
    --email admin@open-reporting.dev \
-   --password YourStrongPassword
+   --password password
 
 docker exec -it superset superset db upgrade
 docker exec -it superset superset init
