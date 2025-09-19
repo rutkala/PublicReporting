@@ -78,6 +78,13 @@ services:
       - jupyter_data:/home/jovyan/work
     networks:
       - network
+    command: >
+      start-notebook.sh
+      --NotebookApp.allow_origin='https://notebook.open-reporting.dev'
+      --NotebookApp.trust_xheaders=True
+      --NotebookApp.websocket_compression_options=None
+      --NotebookApp.allow_remote_access=True
+
 
   trino:
     image: trinodb/trino:latest
