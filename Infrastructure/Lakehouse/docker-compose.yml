@@ -102,6 +102,35 @@ services:
     networks:
       - network  # Custom network for the container
 
+  cube:
+    image: cubejs/cube:latest
+    container_name: cube
+    ports:
+      - "4000:4000"   # REST API
+      - "3000:3000"   # Playground UI (dev only)
+    environment:
+      # Connection to Trino
+      CUBEJS_DB_TYPE: trino
+      CUBEJS_DB_HOST: trino
+      CUBEJS_DB_PORT: 8080
+      CUBEJS_DB_CATALOG: iceberg
+      CUBEJS_DB_SCHEMA: default
+
+      # Cube API security
+      CUBEJS_API_SECRET: supersecret123
+
+      # For now: keep dev mode enabled so you can use the UI
+      CUBEJS_DEV_MODE: "true"
+
+      # Node options (increase memory if needed)
+      NODE_OPTIONS: "--max-old-space-size=1024"
+
+    volumes:
+      - ./cube/conf:/cube/conf
+    depends_on:
+      - trino
+    networks:
+
   superset:
     build:
       context: ./Superset
