@@ -114,7 +114,7 @@ services:
       CUBEJS_DB_HOST: trino
       CUBEJS_DB_PORT: 8080
       CUBEJS_DB_CATALOG: iceberg
-      CUBEJS_DB_SCHEMA: default
+      CUBEJS_DB_SCHEMA: demo
       CUBEJS_DB_USER: admin
 
       # Cube API security
