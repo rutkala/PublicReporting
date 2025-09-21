@@ -116,6 +116,7 @@ services:
       CUBEJS_DB_CATALOG: iceberg
       CUBEJS_DB_SCHEMA: demo
       CUBEJS_DB_USER: admin
+      CUBEJS_PG_SQL_PORT: 15432
       CUBEJS_SQL_USER: cube
       CUBEJS_SQL_PASSWORD: cube
       CUBEJS_SQL_PORT: 15432
