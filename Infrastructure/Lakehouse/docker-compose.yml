@@ -117,7 +117,7 @@ services:
       CUBEJS_DB_SCHEMA: default
 
       # Cube API security
-      CUBEJS_API_SECRET: supersecret123
+      CUBEJS_API_SECRET: password
 
       # For now: keep dev mode enabled so you can use the UI
       CUBEJS_DEV_MODE: "true"
