@@ -158,18 +158,14 @@ services:
     image: lightdash/lightdash:latest
     container_name: lightdash
     environment:
-      # Postgres connection
       DB_HOST: database
       DB_PORT: 5432
       DB_USER: lightdash
       DB_PASSWORD: lightdash
       DB_NAME: lightdash
-
-      # App settings
       LIGHTDASH_SECRET: "supersecretkey"
       NODE_ENV: production
       SITE_URL: "https://portal.open-reporting.dev"
-
     depends_on:
       - database
     networks:
