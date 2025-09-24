@@ -14,9 +14,10 @@ docker exec certbot certbot certonly \
   -d ai.open-reporting.dev \
   -d security.open-reporting.dev \
   -d manage.open-reporting.dev \
+  -d code.open-reporting.dev \
   --cert-name open-reporting.dev \
   --expand \
   --force-renewal \
   --non-interactive \
   --agree-tos \
-  -m your-email@example.com
+  -m r.utkala@gmail.com
