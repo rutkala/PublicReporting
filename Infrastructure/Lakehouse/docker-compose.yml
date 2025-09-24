@@ -182,6 +182,23 @@ services:
     networks:
       - network
 
+  code-server:
+    image: codercom/code-server:latest
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PASSWORD=password  # change this!
+      - TZ=Europe/Warsaw
+    volumes:
+      - ./projects:/home/coder/projects     # mount your repos
+      - ./data/code-server:/home/coder/.local/share/code-server
+    ports:
+      - "127.0.0.1:8443:8080"   # expose only to localhost, use nginx for https
+    networks:
+      - network
+
 networks:
   network:
     driver: bridge
