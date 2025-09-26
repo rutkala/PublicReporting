@@ -1,2 +1,2 @@
-**/Infrastructure/Superset/superset
-**/Infrastructure/Lakehouse/nginx/certs/*
+**/infra/nginx/certs/*
+**/.vscode
