@@ -1,4 +1,13 @@
 from pyspark.sql import SparkSession
+import os
+
+minio_access_key = os.environ["MINIO_ROOT_USER"]
+minio_secret_key = os.environ["MINIO_ROOT_PASSWORD"]
+minio_endpoint = os.environ["MINIO_SERVER_URL"]
+nessie_endpoint = os.environ["NESSIE_SERVER_URL"]
+minio_bucket = os.getenv("MINIO_BUCKET_NAME")
+my_catalog = os.getenv("MY_CATALOG")
+warehouse_uri = f"s3a://{minio_bucket}/{my_catalog}"
 
 # Configure Spark session to use Iceberg with Nessie as the catalog and MinIO as the storage backend
 spark = SparkSession.builder \
@@ -6,13 +15,13 @@ spark = SparkSession.builder \
     .config("spark.jars", "/usr/local/spark/jars/iceberg-spark-runtime-3.5_2.12-1.5.2.jar,/usr/local/spark/jars/nessie-spark-extensions-3.5_2.12-0.95.0.jar") \
     .config("spark.sql.catalog.my_catalog", "org.apache.iceberg.spark.SparkCatalog") \
     .config("spark.sql.catalog.my_catalog.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog") \
-    .config("spark.sql.catalog.my_catalog.uri", "http://nessie:19120/api/v2") \
+    .config("spark.sql.catalog.my_catalog.uri", nessie_endpoint) \
     .config("spark.sql.catalog.my_catalog.ref", "main") \
     .config("spark.sql.catalog.my_catalog.credentials-provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
-    .config("spark.sql.catalog.my_catalog.warehouse", "s3a://warehouse/iceberg") \
-    .config("spark.hadoop.fs.s3a.access.key", "admin") \
-    .config("spark.hadoop.fs.s3a.secret.key", "password") \
-    .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
+    .config("spark.sql.catalog.my_catalog.warehouse", warehouse_uri) \
+    .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
+    .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
+    .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
     .config("spark.hadoop.fs.s3a.path.style.access", "true") \
     .getOrCreate()
 

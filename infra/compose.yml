@@ -1,0 +1,186 @@
+name: lakehouse
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: ${ADMIN_USER}
+      MINIO_ROOT_PASSWORD: ${ADMIN_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server --address ":9000" /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://minio:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - network
+  minio_init:
+    image: minio/mc:latest
+    container_name: minio_mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks:
+      - network
+    volumes:
+    - ./minio/init:/init
+    entrypoint: ["/bin/sh", "/init/create_buckets.sh"]
+    environment:
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      MINIO_ACCESS_KEY: ${ADMIN_USER}
+      MINIO_SECRET_KEY: ${ADMIN_PASSWORD}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
+
+
+
+  nessie: 
+    image: projectnessie/nessie:latest
+    container_name: nessie
+    environment:
+      QUARKUS_HTTP_PORT: 19120
+      NESSIE_VERSION_STORE_TYPE: ROCKSDB
+    ports:
+      - "19120:19120"
+    volumes:
+      - nessie_data:/data
+    networks:
+      - network
+  
+  jupyter:
+    build:
+      context: ./jupyter
+    container_name: jupyter
+    environment:
+      JUPYTER_TOKEN: ${ADMIN_PASSWORD}
+      MINIO_ROOT_USER: ${ADMIN_USER}
+      MINIO_ROOT_PASSWORD: ${ADMIN_PASSWORD}
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      NESSIE_SERVER_URL: ${NESSIE_SERVER_URL}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
+      MY_CATALOG: ${MY_CATALOG}
+    ports:
+      - "8888:8888"
+    volumes:
+      - ../data_engineering/notebooks:/home/jovyan/work
+      - ./jupyter/spark_session.py:/home/jovyan/spark_session.py
+    networks:
+      - network
+    depends_on:
+      - minio
+      - nessie
+    command: >
+      start-notebook.sh
+      --ServerApp.ip=0.0.0.0
+      --ServerApp.base_url=/
+      --ServerApp.allow_origin='https://notebook.open-reporting.dev'
+      --ServerApp.trust_xheaders=True
+      --ServerApp.allow_remote_access=True
+      --ServerApp.token=''
+      --ServerApp.password=''
+
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8081:8080"  # Map Trino's default port to 8081 to avoid conflicts
+    environment:
+      TRINO_NODE_ID: trino-node
+      TRINO_HTTP_PORT: 8080
+      TRINO_DISCOVERY_SERVER_ENABLED: "true"
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      MINIO_ROOT_USER: ${ADMIN_USER}
+      MINIO_ROOT_PASSWORD: ${ADMIN_PASSWORD}
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      NESSIE_SERVER_URL: ${NESSIE_SERVER_URL}
+      WAREHOUSE_URL: ${WAREHOUSE_URL}
+    volumes:
+      - trino_data:/data
+      - ./trino/config.properties:/etc/trino/config.properties:ro
+      - ./trino/iceberg.properties:/etc/trino/catalog/iceberg.properties:ro
+    networks:
+      - network  # Custom network for the container
+    depends_on:
+      - minio
+      - nessie
+      - jupyter
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    restart: always
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_USER=admin
+      - MB_DB_PASS=password
+      - MB_DB_HOST=database
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: postgres:14
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ./database/init-metabase.sql:/docker-entrypoint-initdb.d/init-metabase.sql:ro
+    networks:
+      - network
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    depends_on:
+      - minio
+      - nessie
+      - jupyter
+      - trino
+      - metabase
+    networks:
+      - network
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./nginx/certs:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew --webroot -w /var/www/certbot; done;'"
+    depends_on:
+      - nginx
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
+    
+volumes:
+  minio_data:
+    driver: local
+  nessie_data:
+    driver: local
+  jupyter_data:
+    driver: local
+  trino_data:
+    driver: local
+  database_data:
+    driver: local
