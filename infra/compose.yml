@@ -37,8 +37,6 @@ services:
       MINIO_SECRET_KEY: ${ADMIN_PASSWORD}
       MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
 
-
-
   nessie: 
     image: projectnessie/nessie:latest
     container_name: nessie
@@ -63,7 +61,7 @@ services:
       MINIO_SERVER_URL: ${MINIO_SERVER_URL}
       NESSIE_SERVER_URL: ${NESSIE_SERVER_URL}
       MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
-      MY_CATALOG: ${MY_CATALOG}
+      NESSIE_CATALOG_NAME: ${NESSIE_CATALOG_NAME}
     ports:
       - "8888:8888"
     volumes:
@@ -99,7 +97,7 @@ services:
       MINIO_ROOT_PASSWORD: ${ADMIN_PASSWORD}
       MINIO_SERVER_URL: ${MINIO_SERVER_URL}
       NESSIE_SERVER_URL: ${NESSIE_SERVER_URL}
-      WAREHOUSE_URL: ${WAREHOUSE_URL}
+      CATALOG_URL: ${CATALOG_URL}
     volumes:
       - trino_data:/data
       - ./trino/config.properties:/etc/trino/config.properties:ro
