@@ -101,7 +101,7 @@ services:
     volumes:
       - trino_data:/data
       - ./trino/config.properties:/etc/trino/config.properties:ro
-      - ./trino/iceberg.properties:/etc/trino/catalog/iceberg.properties:ro
+      - ./trino/tables.properties:/etc/trino/catalog/tables.properties:ro
     networks:
       - network  # Custom network for the container
     depends_on:
