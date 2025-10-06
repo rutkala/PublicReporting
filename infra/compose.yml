@@ -102,6 +102,8 @@ services:
       - trino_data:/data
       - ./trino/config.properties:/etc/trino/config.properties:ro
       - ./trino/tables.properties:/etc/trino/catalog/tables.properties:ro
+      - ./trino/password.db:/etc/trino/password.db
+      - ./trino/password-authenticator.properties:/etc/trino/password-authenticator.properties:ro
     networks:
       - network  # Custom network for the container
     depends_on:
@@ -167,6 +169,7 @@ services:
       - nginx
     networks:
       - network
+
 networks:
   network:
     driver: bridge
