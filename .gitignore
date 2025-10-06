@@ -1,3 +1,5 @@
 **/.vscode
 **/infra/nginx/certs/*
 **/infra/.env
+**/infra/nginx/.htpasswd
+**/infra/trino/password.db

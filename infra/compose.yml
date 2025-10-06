@@ -149,6 +149,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/certs:/etc/letsencrypt
       - ./nginx/www:/var/www/certbot
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
     depends_on:
       - minio
       - nessie
