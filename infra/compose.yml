@@ -55,7 +55,6 @@ services:
       context: ./jupyter
     container_name: jupyter
     environment:
-      JUPYTER_TOKEN: ${ADMIN_PASSWORD}
       MINIO_ROOT_USER: ${ADMIN_USER}
       MINIO_ROOT_PASSWORD: ${ADMIN_PASSWORD}
       MINIO_SERVER_URL: ${MINIO_SERVER_URL}
@@ -79,8 +78,7 @@ services:
       --ServerApp.allow_origin='https://notebook.open-reporting.dev'
       --ServerApp.trust_xheaders=True
       --ServerApp.allow_remote_access=True
-      --ServerApp.token=''
-      --ServerApp.password=''
+      --ServerApp.password=${JUPYTER_HASH}
 
   trino:
     image: trinodb/trino:latest
