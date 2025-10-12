@@ -1,0 +1,91 @@
+[0m19:38:31.298100 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9e610690>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9bd10f10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9e611010>]}
+
+
+============================== 19:38:31.318335 | de8e8a14-702e-41e2-ba90-61d308f1347c ==============================
+[0m19:38:31.318335 [info ] [MainThread]: Running with dbt=1.10.13
+[0m19:38:31.319871 [debug] [MainThread]: running dbt with arguments {'fail_fast': 'False', 'target_path': 'None', 'empty': 'None', 'cache_selected_only': 'False', 'partial_parse': 'True', 'profiles_dir': '/usr/app', 'send_anonymous_usage_stats': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'use_colors': 'True', 'printer_width': '80', 'debug': 'False', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'warn_error': 'None', 'indirect_selection': 'eager', 'version_check': 'True', 'log_cache_events': 'False', 'invocation_command': 'dbt init trino_lakehouse_project', 'no_print': 'None', 'use_experimental_parser': 'False', 'quiet': 'False', 'write_json': 'True', 'log_path': 'logs'}
+[0m19:38:31.348863 [debug] [MainThread]: Starter project path: /usr/local/lib/python3.11/site-packages/dbt/include/starter_project
+[0m19:38:31.358463 [info ] [MainThread]: 
+Your new dbt project "trino_lakehouse_project" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m19:38:31.359605 [info ] [MainThread]: Setting up your profile.
+[0m19:39:05.428422 [info ] [MainThread]: Profile trino_lakehouse_project written to /usr/app/profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m19:39:05.432644 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 34.290974, "process_in_blocks": "76544", "process_kernel_time": 0.894726, "process_mem_max_rss": "105836", "process_out_blocks": "2240", "process_user_time": 3.865856}
+[0m19:39:05.434038 [debug] [MainThread]: Command `dbt init` succeeded at 19:39:05.433750 after 34.29 seconds
+[0m19:39:05.435165 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9b98abd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9b988a50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77bf9bd113d0>]}
+[0m19:39:05.436116 [debug] [MainThread]: Flushing usage events
+[0m19:39:06.248755 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:44:09.481087 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf59dc850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf7c09a50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf59dca90>]}
+
+
+============================== 19:44:09.490568 | 9115a581-da51-4ab9-9c51-82bebbce3e3b ==============================
+[0m19:44:09.490568 [info ] [MainThread]: Running with dbt=1.10.13
+[0m19:44:09.491435 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'target_path': 'None', 'printer_width': '80', 'no_print': 'None', 'version_check': 'True', 'log_path': 'logs', 'send_anonymous_usage_stats': 'True', 'warn_error': 'None', 'empty': 'None', 'quiet': 'False', 'debug': 'False', 'indirect_selection': 'eager', 'profiles_dir': '/usr/app', 'partial_parse': 'True', 'cache_selected_only': 'False', 'invocation_command': 'dbt debug --profiles-dir /usr/app', 'write_json': 'True', 'use_colors': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'fail_fast': 'False', 'use_experimental_parser': 'False', 'log_format': 'default', 'static_parser': 'True', 'log_cache_events': 'False'}
+[0m19:44:09.513719 [info ] [MainThread]: dbt version: 1.10.13
+[0m19:44:09.514433 [info ] [MainThread]: python version: 3.11.13
+[0m19:44:09.514882 [info ] [MainThread]: python path: /usr/local/bin/python3.11
+[0m19:44:09.515566 [info ] [MainThread]: os info: Linux-6.8.0-85-generic-x86_64-with-glibc2.41
+[0m19:44:09.663639 [info ] [MainThread]: Using profiles dir at /usr/app
+[0m19:44:09.664729 [info ] [MainThread]: Using profiles.yml file at /usr/app/profiles.yml
+[0m19:44:09.665669 [info ] [MainThread]: Using dbt_project.yml file at /usr/app/dbt_project.yml
+[0m19:44:09.666477 [info ] [MainThread]: adapter type: trino
+[0m19:44:09.667096 [info ] [MainThread]: adapter version: 1.8.1
+[0m19:44:09.667621 [info ] [MainThread]: Configuration:
+[0m19:44:09.667999 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m19:44:09.668418 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m19:44:09.668818 [info ] [MainThread]: Required dependencies:
+[0m19:44:09.669502 [debug] [MainThread]: Executing "git --help"
+[0m19:44:09.693604 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:44:09.696774 [debug] [MainThread]: STDERR: "b''"
+[0m19:44:09.698236 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:44:09.700162 [info ] [MainThread]: Connection:
+[0m19:44:09.701509 [info ] [MainThread]:   host: trino
+[0m19:44:09.703386 [info ] [MainThread]:   port: 8080
+[0m19:44:09.704322 [info ] [MainThread]:   user: admin
+[0m19:44:09.705429 [info ] [MainThread]:   database: tables
+[0m19:44:09.706421 [info ] [MainThread]:   schema: bronze
+[0m19:44:09.707444 [info ] [MainThread]:   cert: None
+[0m19:44:09.708773 [info ] [MainThread]:   prepared_statements_enabled: True
+[0m19:44:09.710518 [info ] [MainThread]: Registered adapter: trino=1.8.1
+[0m19:44:09.951317 [debug] [MainThread]: Acquiring new trino connection 'debug'
+[0m19:44:10.041624 [debug] [MainThread]: Using trino connection "debug"
+[0m19:44:10.042262 [debug] [MainThread]: On debug: select 1 as id
+[0m19:44:10.042631 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m19:44:10.626769 [debug] [MainThread]: Trino adapter: Trino error: failed to execute: HTTPConnectionPool(host='trino', port=8080): Max retries exceeded with url: /v1/statement (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x71bcf50b2c50>: Failed to resolve 'trino' ([Errno -3] Temporary failure in name resolution)"))
+[0m19:44:10.628451 [debug] [MainThread]: On debug: Close
+[0m19:44:10.629192 [info ] [MainThread]:   Connection test: [[31mERROR[0m]
+
+[0m19:44:10.629999 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m19:44:10.630569 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </usr/app/dbt_project.yml> not found
+
+[0m19:44:10.631127 [info ] [MainThread]: dbt was unable to connect to the specified database.
+The database returned the following error:
+
+  >Database Error
+  failed to execute: HTTPConnectionPool(host='trino', port=8080): Max retries exceeded with url: /v1/statement (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x71bcf50b2c50>: Failed to resolve 'trino' ([Errno -3] Temporary failure in name resolution)"))
+
+Check your database credentials and try again. For more information, visit:
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m19:44:10.634949 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 1.3800784, "process_in_blocks": "11184", "process_kernel_time": 0.884615, "process_mem_max_rss": "110796", "process_out_blocks": "64", "process_user_time": 3.955215}
+[0m19:44:10.636456 [debug] [MainThread]: Command `dbt debug` failed at 19:44:10.635977 after 1.38 seconds
+[0m19:44:10.637165 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m19:44:10.637813 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf5641950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf564ea90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x71bcf50c1d10>]}
+[0m19:44:10.639142 [debug] [MainThread]: Flushing usage events
+[0m19:44:11.215208 [debug] [MainThread]: An error was encountered while trying to flush usage events

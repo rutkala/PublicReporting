@@ -1,0 +1,25 @@
+trino_lakehouse_project:
+  outputs:
+    dev:
+      type: trino
+      method: none
+      user: admin
+      password: PublicReporting2509!
+      host: trino
+      port: 8080
+      catalog: tables
+      schema: bronze
+      threads: 4
+
+    prod:
+      type: trino
+      method: none
+      user: admin
+      password: PublicReporting2509!
+      host: trino
+      port: 8080
+      catalog: tables
+      schema: gold
+      threads: 4
+
+  target: dev

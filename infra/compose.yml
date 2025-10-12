@@ -124,6 +124,21 @@ services:
     networks:
       - network
 
+  dbt:
+    build:
+      context: ./dbt   # Dockerfile for dbt image
+      dockerfile: Dockerfile
+    container_name: dbt
+    working_dir: /usr/app
+    volumes:
+      - ../data_engineering/dbt:/usr/app   # mount project here
+    environment:
+      DBT_PROFILES_DIR: /usr/app
+    command: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - trino
+    networks:
+      - network
   metabase:
     image: metabase/metabase:latest
     container_name: metabase
