@@ -49,7 +49,6 @@ services:
       - nessie_data:/data
     networks:
       - network
-  
   jupyter:
     build:
       context: ./jupyter
@@ -85,6 +84,12 @@ services:
     container_name: trino
     ports:
       - "8081:8080"  # Map Trino's default port to 8081 to avoid conflicts
+    healthcheck:
+      test: ["CMD", "trino", "--server", "http://localhost:8080", "--execute", "SELECT 1"]
+      interval: 30s
+      timeout: 20s
+      retries: 10
+      start_period: 60s
     environment:
       TRINO_NODE_ID: trino-node
       TRINO_HTTP_PORT: 8080
@@ -108,6 +113,16 @@ services:
       - minio
       - nessie
       - jupyter
+  trino_init:
+    image: trinodb/trino:latest
+    depends_on:
+      trino:
+        condition: service_healthy
+    volumes:
+      - ./trino/init_namespaces.sql:/init_namespaces.sql
+    entrypoint: ["/bin/sh", "-c", "trino --server trino:8080 --execute \"$(cat /init_namespaces.sql)\""]
+    networks:
+      - network
 
   metabase:
     image: metabase/metabase:latest

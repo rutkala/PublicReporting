@@ -1,0 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS tables.bronze;
+
+CREATE SCHEMA IF NOT EXISTS tables.silver;
+
+CREATE SCHEMA IF NOT EXISTS tables.gold;
