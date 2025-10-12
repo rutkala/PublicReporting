@@ -12,6 +12,9 @@ RUN curl -L -o /usr/local/spark/jars/nessie-spark-extensions.jar https://repo1.m
 RUN pip install pyspark
 RUN pip install --no-deps sparksql-magic
 
+# Install Python dependencies
+RUN pip install boto3 minio
+
 # Copy SparkSession bootstrap
 # COPY jupyter/spark_session.py /home/jovyan/spark_session.py
 
