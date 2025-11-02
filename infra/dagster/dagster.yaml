@@ -1,0 +1,15 @@
+storage:
+  postgres:
+    postgres_db:
+      username: dagster
+      password: dagster
+      hostname: dagster_db
+      db_name: dagster
+      port: 5432
+
+run_coordinator:
+  module: dagster.core.run_coordinator
+  class: DefaultRunCoordinator
+
+# Keep it simple: in-process runs inside dagster_code container.
+# You can switch to DockerRunLauncher later if you want per-run containers.

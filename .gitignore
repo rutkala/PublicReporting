@@ -3,3 +3,36 @@
 **/infra/.env
 **/infra/nginx/.htpasswd
 **/infra/trino/password.db
+
+# ----------------------------------------------------------------------
+# Dagster runtime state
+# ----------------------------------------------------------------------
+# Local Dagster logs and telemetry
+infra/dagster/.logs_queue/
+infra/dagster/.telemetry/
+infra/dagster/.nux/
+infra/dagster/logs/
+infra/dagster/storage/
+infra/dagster/tmp/
+# Any local instance files (if you override DAGSTER_HOME)
+.dagster_home/
+dagster_home/
+
+# ----------------------------------------------------------------------
+# Orchestration (Dagster Python code)
+# ----------------------------------------------------------------------
+
+# Byte-compiled / cache files
+orchestration/__pycache__/
+orchestration/**/*.pyc
+orchestration/**/*.pyo
+orchestration/**/*.pyd
+
+# Virtual environments (if you ever create one locally)
+orchestration/venv/
+orchestration/.venv/
+
+# Temporary test files
+orchestration/*.log
+orchestration/*.tmp
+orchestration/*.bak

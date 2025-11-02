@@ -199,6 +199,75 @@ services:
     networks:
       - network
 
+  dagster_db:
+    image: postgres:14
+    container_name: dagster_db
+    environment:
+      POSTGRES_USER: dagster
+      POSTGRES_PASSWORD: dagster
+      POSTGRES_DB: dagster
+    volumes:
+      - dagster_db_data:/var/lib/postgresql/data
+    networks:
+      - network
+
+  dagster_code:
+    build:
+      context: ./dagster
+    container_name: dagster_code
+    environment:
+      DAGSTER_HOME: /app/infra/dagster
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      TRINO_HOST: trino
+      TRINO_PORT: 8080
+    volumes:
+      - ../:/app   # mount the repo root
+    command: >
+      bash -lc "dagster api grpc -h 0.0.0.0 -p 4000 -m orchestration.repos"
+    depends_on:
+      - dagster_db
+    networks:
+      - network
+
+  dagster_webserver:
+    build:
+      context: ./dagster
+    container_name: dagster_webserver
+    environment:
+      DAGSTER_HOME: /app/infra/dagster
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../:/app
+    command: >
+      bash -lc "dagster-webserver -h 0.0.0.0 -p 3000 -w /app/infra/dagster/workspace.yaml"
+    depends_on:
+      - dagster_code
+      - dagster_db
+    networks:
+      - network
+
+  dagster_daemon:
+    build:
+      context: ./dagster
+    container_name: dagster_daemon
+    environment:
+      DAGSTER_HOME: /app/infra/dagster
+      PYTHONUNBUFFERED: "1"
+    working_dir: /app
+    volumes:
+      - ../:/app                      # repo root (since you run compose from infra/)
+    entrypoint: []                    # run the binary directly (no shell)
+    command: ["dagster-daemon","run","--log-level","DEBUG","-w","/app/infra/dagster/workspace.yaml"]
+    depends_on:
+      - dagster_code
+      - dagster_webserver
+      - dagster_db
+    networks:
+      - network
+
 networks:
   network:
     driver: bridge
@@ -213,4 +282,6 @@ volumes:
   trino_data:
     driver: local
   database_data:
+    driver: local
+  dagster_db_data:
     driver: local
