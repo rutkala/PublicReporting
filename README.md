@@ -17,4 +17,5 @@ Data Catalog: Project Nessie
 Query Engine: Trino
 Data Visualization: Metabase
 Orchestration: Dagster
+Operational database: PostreSQL
 Web hosting: Nginx
