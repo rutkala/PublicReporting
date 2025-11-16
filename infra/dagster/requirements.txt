@@ -2,8 +2,10 @@ dagster
 dagster-webserver
 dagster-postgres
 psycopg2-binary
-# optional extras you’ll likely use:
 dagster-dbt
 trino
 boto3
 pyiceberg
+requests
+s3fs
+playwright==1.48.0

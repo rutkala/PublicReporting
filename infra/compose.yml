@@ -124,6 +124,28 @@ services:
     networks:
       - network
 
+  dlt:
+    build:
+      context: ..                  # repo root so Dockerfile can COPY data_ingestion/requirements.txt
+      dockerfile: ./infra/dlt/Dockerfile
+    container_name: dlt
+    working_dir: /app/data_ingestion
+    volumes:
+      - ../:/app                   # mount repo root (so /app/data_ingestion exists)
+    environment:
+      PYTHONUNBUFFERED: "1"
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
+      AWS_ACCESS_KEY_ID: ${ADMIN_USER}
+      AWS_SECRET_ACCESS_KEY: ${ADMIN_PASSWORD}
+      AWS_REGION: us-east-1
+      S3_USE_SIGV4: "True"
+    depends_on:
+      - minio
+    command: ["tail","-f","/dev/null"]
+    networks:
+      - network
+
   dbt:
     build:
       context: ./dbt   # Dockerfile for dbt image
@@ -218,14 +240,18 @@ services:
     environment:
       DAGSTER_HOME: /app/infra/dagster
       MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
       ADMIN_USER: ${ADMIN_USER}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      AWS_ACCESS_KEY_ID: ${ADMIN_USER}
+      AWS_SECRET_ACCESS_KEY: ${ADMIN_PASSWORD}
       TRINO_HOST: trino
       TRINO_PORT: 8080
     volumes:
       - ../:/app   # mount the repo root
     command: >
-      bash -lc "dagster api grpc -h 0.0.0.0 -p 4000 -m orchestration.repos"
+      bash -lc "python -m pip install -e /app/orchestration -e /app/data_ingestion &&
+            dagster api grpc -h 0.0.0.0 -p 4000 -m orchestration.definitions"
     depends_on:
       - dagster_db
     networks:

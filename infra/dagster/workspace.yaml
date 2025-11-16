@@ -2,5 +2,4 @@ load_from:
   - grpc_server:
       host: dagster_code
       port: 4000
-      # optional, but nice for UI:
       location_name: user_code
